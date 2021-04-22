@@ -17,7 +17,7 @@ class Parser {
             starsSum += Integer.parseInt(data.get(i).getAsJsonObject().get("stargazers_count").toString());
         }
 
-        sb.append("Total stars sum = " + starsSum + "\n");
+        sb.append("Total sum of stars: " + starsSum + "\n");
 
         if (starsSum == 0) {
             sb.append("Seems like you have zero stars :(\n");

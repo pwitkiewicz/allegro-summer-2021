@@ -8,8 +8,8 @@ import java.io.IOException;
 
 public class App {
     public static void main(String[] args) throws IOException, InterruptedException {
-        System.out.println("server will run on localhost, port 8080");
         Server server = new Server();
+        System.out.println("server will run on localhost, port " + server.getPort());
         server.init();
     }
 }
