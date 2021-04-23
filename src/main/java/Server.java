@@ -7,7 +7,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class Server {
-    final int port = 80;
+    final int port = 8080;
 
     public int getPort() {
         return port;
@@ -69,6 +69,5 @@ public class Server {
             e.printStackTrace();
             System.out.println("error creating server...");
         }
-
     }
 }

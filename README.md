@@ -6,6 +6,10 @@ to install and run the server go to an empty directory of your choice and execut
 2. cd allegro-summer-2021
 3. gradlew run
 
-after this two commands server will start and be available at your browser, simply type localhost at your address bar
-type localhost/<username> to look for user's repos and stars
-type localhost/shutdown to turn off the server
+on unix systems you might need to type "chmod 755 gradlew" before 3rd command
+
+after this two commands server will start and be available at your browser, simply type localhost at your address bar to access it
+
+type localhost:8080/<username> to look for user's repos and stars
+
+type localhost:8080/shutdown to turn off the server
