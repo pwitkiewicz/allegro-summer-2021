@@ -25,33 +25,26 @@ public class Server {
                 String user = null;
 
                 // check if there is username provided
-                if(h.getRequestURI().toString().split("/").length == 2) {
+                if (h.getRequestURI().toString().split("/").length == 2) {
                     user = h.getRequestURI().toString().split("/")[1];
                 }
 
                 // build page html code
-                String response = """
-                    <head>
-                        <link rel=\"icon\" href=\"data:,\">
-                    </head>
-                    <body>
-                    <p>
-                    <h2>Welcome to my server app for handling github api requests!</h2><br />
-                    Available commands (to be typed in browsers address bar)<br />
-                    localhost/username - get user's list of repos and total sum of stars<br />
-                    localhost/shutdown - shutdown the server<br />
-                    </p>
-                    """;
+                String response = "<head><link rel=\"icon\" href=\"data:,\"></head><body><p>"
+                        + "<h2>Welcome to my server app for handling github api requests!</h2><br />"
+                        + "Available commands (to be typed in browsers address bar)<br />"
+                        + "localhost/username - get user's list of repos and total sum of stars<br />"
+                        + "localhost/shutdown - shutdown the server<br /></p>";
 
                 // append response from github api if requested
-                if(user != null && !user.equals("shutdown")) {
+                if (user != null && !user.equals("shutdown")) {
                     Sender sender = new Sender();
                     Parser parser = new Parser();
                     response += parser.parseJsonArray(sender.sendGETRequest(user));
                 }
 
                 // shutdown app if requested
-                if(user != null && user.equals("shutdown")) {
+                if (user != null && user.equals("shutdown")) {
                     threadPoolExecutor.submit(() -> {
                         finalServer.stop(0);
                         System.out.println("HTTP server stopped");
