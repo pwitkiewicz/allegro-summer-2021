@@ -16,7 +16,7 @@ On unix systems you might need to type `chmod 755 gradlew` before 3rd step.
 IMPORTANT❗: Instead of steps 1 and 2 if you don't have git installed you can download zip with source code of the v1.0 release, unzip it, navigate to directory with unzipped source files and through terminal or cmd type command from third step.
 
 ## How to use:
-After this two commands server will start and be available at your browser, simply type `localhost:8080` at your address bar to access it.\
+After installation commands server will start and be available at your browser, simply type `localhost:8080` at your address bar to access it.\
 Type `localhost:8080/<username>` to look for user's repos and stars.\
 Type `localhost:8080/shutdown` to turn off the server.
 
