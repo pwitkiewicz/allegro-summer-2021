@@ -20,6 +20,8 @@ After installation commands server will start and be available at your browser, 
 Type `localhost:8080/<username>` to look for user's repos and stars.\
 Type `localhost:8080/shutdown` to turn off the server.
 
+To run server again use `gradlew run` command.
+
 ## Things to add/improve in future:
 - Cuter HTML interface
 - Implement handling any requests that can be processed by Github API.
