@@ -4,11 +4,13 @@ It's a HTTP server which you can use to retrive list of repos and sum of stars o
 
 ## How to install:
 To install and run the server go to an empty directory of your choice and execute commands:
-1. `git clone https://github.com/pwitkiewicz/allegro-summer-2021.git`
+1. `git clone https://github.com/pwitkiewicz/allegro-summer-2021.git'
 2. `cd allegro-summer-2021`
 3. `gradlew run`
 
-On unix systems you might need to type `chmod 755 gradlew` before 3rd command.
+On unix systems you might need to type `chmod 755 gradlew` before 3rd step.
+
+IMPORTANT❗: Instead of steps 1 and 2 if you don't have git installed you can download zip with source code of the v1.0 release, unzip it, navigate to directory with unzipped source files and through terminal or cmd type command from third step.
 
 ## How to use:
 After this two commands server will start and be available at your browser, simply type `localhost:8080` at your address bar to access it.\
