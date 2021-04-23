@@ -4,7 +4,7 @@ It's a HTTP server which you can use to retrive list of repos and sum of stars o
 
 ## How to install:
 To install and run the server go to an empty directory of your choice and execute commands:
-1. `git clone https://github.com/pwitkiewicz/allegro-summer-2021.git'
+1. `git clone https://github.com/pwitkiewicz/allegro-summer-2021.git`
 2. `cd allegro-summer-2021`
 3. `gradlew run`
 
