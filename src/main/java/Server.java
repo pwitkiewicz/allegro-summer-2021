@@ -66,6 +66,7 @@ public class Server {
             System.out.println("HTTP server started");
 
         } catch (IOException e) {
+            e.printStackTrace();
             System.out.println("error creating server...");
         }
 
