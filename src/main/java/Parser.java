@@ -13,18 +13,24 @@ class Parser {
         sb.append(data.get(0).getAsJsonObject()
                 .get("owner").getAsJsonObject()
                 .get("login").toString()
-                .replaceAll("\"", "") + "'s repositories:\n\r");
+                .replaceAll("\"", "")).append("'s repositories:</br>\n");
 
         // get all repo's names
         for (int i = 0; i < data.size(); i++) {
-            sb.append(i + 1 + ". " + data.get(i).getAsJsonObject().get("name").toString() + "\n\r");
+            sb.append(i+1)
+                    .append(". ")
+                    .append(data.get(i).getAsJsonObject().get("name").toString())
+                    .append("<br/>");
             starsSum += Integer.parseInt(data.get(i).getAsJsonObject().get("stargazers_count").toString());
         }
 
-        sb.append("Total sum of stars: " + starsSum + "\n\r");
+        // add sum of stars to the output
+        sb.append("Total sum of stars: ")
+                .append(starsSum)
+                .append("</br>");
 
         if (starsSum == 0) {
-            sb.append("Seems like this user have zero stars :(\n\r");
+            sb.append("Seems like this user have zero stars :(</br>");
         }
 
         return sb.toString();
