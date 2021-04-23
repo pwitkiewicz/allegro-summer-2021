@@ -1,54 +1,80 @@
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpServer;
+
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.InetSocketAddress;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class Server {
-    final int port = 6666;
+    final int port = 80;
 
     public int getPort() {
         return port;
     }
 
-    public void init() {
-        // todo handling multiple clients
-        // todo server shutdown on timeout
+    public void start() {
+        ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
+        HttpServer server = null;
+
         try {
-            ServerSocket serverSocket = new ServerSocket(port);
-            Socket socket = serverSocket.accept();
-            handleConnection(socket);
-            serverSocket.close();
+            server = HttpServer.create(new InetSocketAddress("localhost", port), 3);
+            HttpServer finalServer = server;
+
+            server.createContext("/", (HttpExchange h) -> {
+                String user = null;
+
+                // check if there is username provided
+                if(h.getRequestURI().toString().split("/").length == 2) {
+                    user = h.getRequestURI().toString().split("/")[1];
+                }
+
+                // build page html code
+                String response = """
+                    <head>
+                        <link rel=\"icon\" href=\"data:,\">
+                    </head>
+                    <body>
+                    <p>
+                    <h2>Welcome to my server app for handling github api requests!</h2><br />
+                    Available commands (to be typed in browsers address bar)<br />
+                    localhost/username - get user's list of repos and total sum of stars<br />
+                    localhost/shutdown - shutdown the server<br />
+                    </p>
+                    """;
+
+                // append response from github api if requested
+                if(user != null && !user.equals("shutdown")) {
+                    Sender sender = new Sender();
+                    Parser parser = new Parser();
+                    response += parser.parseJsonArray(sender.sendGETRequest(user));
+                }
+
+                // shutdown app if requested
+                if(user != null && user.equals("shutdown")) {
+                    threadPoolExecutor.submit(() -> {
+                        finalServer.stop(0);
+                        System.out.println("HTTP server stopped");
+                        threadPoolExecutor.shutdown();
+                    });
+                    response += "server shutdown!<br />";
+                }
+
+                response += "</body>";
+                h.sendResponseHeaders(200, response.length());
+                OutputStream os = h.getResponseBody();
+                os.write(response.getBytes());
+                os.close();
+            });
+
+            // start the server
+            server.setExecutor(threadPoolExecutor);
+            server.start();
+            System.out.println("HTTP server started");
+
+        } catch (IOException e) {
+            System.out.println("error creating server...");
         }
-        catch (IOException e) {
-            System.out.println("Error creating server");
-        }
-    }
 
-    private void handleConnection(Socket socket) throws IOException {
-        InputStream input = socket.getInputStream();
-        OutputStream output = socket.getOutputStream();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-        PrintWriter writer = new PrintWriter(output, true);
-
-        writer.println("""
-                Welcome to my server app for handling github api requests!\n\r
-                Available commands\n\r
-                <username> - get user's list of repos and total sum of stars\n\r
-                <shutdown> - shutdown server\n\r
-                """);
-
-        String line = reader.readLine();
-
-        Sender sender = new Sender();
-        Parser parser = new Parser();
-
-        while(!line.startsWith("shutdown")) {
-            String result = parser.parseJsonArray(sender.sendGETRequest(line));
-            writer.println(result);
-
-            line = reader.readLine().replaceAll("[^A-Za-z0-9]+", "");
-            writer.println("input: " + line);
-        }
-
-        socket.close();
     }
 }
