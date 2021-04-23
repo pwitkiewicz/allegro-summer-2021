@@ -1,13 +1,12 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
- class Sender {
+class Sender {
     protected JsonArray sendGETRequest(String user) {
         // create apiPath
         String apiPath = "https://api.github.com/users/" + user + "/repos";
