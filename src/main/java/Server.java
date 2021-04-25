@@ -23,24 +23,40 @@ public class Server {
 
             server.createContext("/", (HttpExchange h) -> {
                 String user = null;
+                boolean onlyStars = false;
 
                 // check if there is username provided
                 if (h.getRequestURI().toString().split("/").length == 2) {
                     user = h.getRequestURI().toString().split("/")[1];
                 }
 
+                // check if only stars requested
+                if (h.getRequestURI().toString().split("/").length == 3 && h.getRequestURI().toString().split("/")[1].equals("stars")) {
+                    user = h.getRequestURI().toString().split("/")[2];
+                    onlyStars = true;
+                }
+
                 // build page html code
-                String response = "<head><link rel=\"icon\" href=\"data:,\"></head><body><p>"
-                        + "<h2>Welcome to my server app for handling github api requests!</h2><br />"
-                        + "Available commands (to be typed in browsers address bar)<br />"
-                        + "localhost/username - get user's list of repos and total sum of stars<br />"
-                        + "localhost/shutdown - shutdown the server<br /></p>";
+                StringBuilder response = new StringBuilder();
+                response.append("<head><link rel=\"icon\" href=\"data:,\"></head><body><p>")
+                        .append("<h2>Welcome to my server app for handling github api requests!</h2><br />")
+                        .append("Available commands (to be typed in browsers address bar)<br />")
+                        .append("localhost/username - get user's list of repos and total sum of stars<br />")
+                        .append("localhost/shutdown - shutdown the server<br /></p>");
 
                 // append response from github api if requested
                 if (user != null && !user.equals("shutdown")) {
                     Sender sender = new Sender();
                     Parser parser = new Parser();
-                    response += parser.parseJsonArray(sender.sendGETRequest(user));
+
+                    Result r = parser.parseJsonArray(sender.sendGETRequest(user));
+                    if(r.getStarsSum() == -1) {
+                        response.append("User not found!");
+                    } else if(!onlyStars) {
+                        response.append(r.getRepoList());
+                    } else {
+                        response.append("Total sum of stars: ").append(r.getStarsSum());
+                    }
                 }
 
                 // shutdown app if requested
@@ -50,13 +66,13 @@ public class Server {
                         System.out.println("HTTP server stopped");
                         threadPoolExecutor.shutdown();
                     });
-                    response += "server shutdown!<br />";
+                    response.append("server shutdown!<br />");
                 }
 
-                response += "</body>";
+                response.append("</body>");
                 h.sendResponseHeaders(200, response.length());
                 OutputStream os = h.getResponseBody();
-                os.write(response.getBytes());
+                os.write(response.toString().getBytes());
                 os.close();
             });
 

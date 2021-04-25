@@ -18,6 +18,7 @@ IMPORTANT❗: Instead of steps 1 and 2 if you don't have git installed you can d
 ## How to use:
 After installation commands server will start and be available at your browser, simply type `localhost:8080` at your address bar to access it.\
 Type `localhost:8080/<username>` to look for user's repos and stars.\
+Type `localhost:8080/stars/<username>` to get sum of stars for given user.\
 Type `localhost:8080/shutdown` to turn off the server.
 
 To run server again use `gradlew run` command.

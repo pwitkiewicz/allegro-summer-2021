@@ -1,9 +1,9 @@
 import com.google.gson.JsonArray;
 
 class Parser {
-    protected String parseJsonArray(JsonArray data) {
+    protected Result parseJsonArray(JsonArray data) {
         if(data == null) {
-            return "User not found";
+            return new Result("", -1);
         }
 
         StringBuilder sb = new StringBuilder();
@@ -21,20 +21,11 @@ class Parser {
             sb.append(i+1)
                     .append(". ")
                     .append(data.get(i).getAsJsonObject().get("name").toString())
-                    .append(", stars:" + stars)
+                    .append(", stars: " + stars)
                     .append("<br/>");
             starsSum += stars;
         }
 
-        // add sum of stars to the output
-        sb.append("Total sum of stars: ")
-                .append(starsSum)
-                .append("</br>");
-
-        if (starsSum == 0) {
-            sb.append("Seems like this user have zero stars :(</br>");
-        }
-
-        return sb.toString();
+        return new Result(sb.toString(), starsSum);
     }
 }
