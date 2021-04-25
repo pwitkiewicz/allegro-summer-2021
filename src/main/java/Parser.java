@@ -17,11 +17,13 @@ class Parser {
 
         // get all repo's names
         for (int i = 0; i < data.size(); i++) {
+            int stars = Integer.parseInt(data.get(i).getAsJsonObject().get("stargazers_count").toString());
             sb.append(i+1)
                     .append(". ")
                     .append(data.get(i).getAsJsonObject().get("name").toString())
+                    .append(", stars:" + stars)
                     .append("<br/>");
-            starsSum += Integer.parseInt(data.get(i).getAsJsonObject().get("stargazers_count").toString());
+            starsSum += stars;
         }
 
         // add sum of stars to the output
