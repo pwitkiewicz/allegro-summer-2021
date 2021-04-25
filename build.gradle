@@ -5,8 +5,8 @@ plugins {
 
 sourceCompatibility = 11
 targetCompatibility = 11
-group 'org.example'
-version '1.0-SNAPSHOT'
+group 'com.pwitkiewicz'
+version '1.0'
 
 repositories {
     mavenCentral()
@@ -18,4 +18,14 @@ dependencies {
 
 application {
     mainClass.set('App')
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": 'App'
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
