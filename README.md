@@ -6,10 +6,16 @@ It's a HTTP server which you can use to retrive list of repos and sum of stars o
 - Installed Java 11
 
 ## How to install:
-To install and run the server go to an directory of your choice and execute commands:
-1. `git clone https://github.com/pwitkiewicz/allegro-summer-2021.git`
-2. `cd allegro-summer-2021`
-3. `gradlew run` on windows or `./gradlew run` on unix systems
+### Easy way (no jdk required):
+1. Go to [v1.0 release](https://github.com/pwitkiewicz/allegro-summer-2021/releases/tag/v1.0)
+2. Download jar package
+3. Run by executing `java -jar allegro-summer-2021-1.0.jar` in directory where you had downloaded the package
+
+### If you would like to compile the app yourself:
+1. Go to an directory of your choice and execute commands:
+2. `git clone https://github.com/pwitkiewicz/allegro-summer-2021.git`
+3. `cd allegro-summer-2021`
+4. `gradlew run` on windows or `./gradlew run` on unix systems
 
 On unix systems you might need to type `chmod 755 gradlew` before 3rd step.
 
