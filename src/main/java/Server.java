@@ -11,9 +11,9 @@ public class Server {
     final private String htmlTopPart = "<head><link rel=\"icon\" href=\"data:,\"></head><body><p>"
             + "<h2>Welcome to my server app for handling github api requests!</h2><br />"
             + "Available commands (to be typed in browsers address bar)<br />"
-            + "localhost/username - get user's list of repos and total sum of stars<br />"
-            + "localhost/stars/username - get user's sum of all stars<br />"
-            + "localhost/shutdown - shutdown the server<br /></p>";
+            + "localhost:8080/username - get user's list of repos and total sum of stars<br />"
+            + "localhost:8080/stars/username - get user's sum of all stars<br />"
+            + "localhost:8080/shutdown - shutdown the server<br /></p>";
 
     public int getPort() {
         return port;
