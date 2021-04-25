@@ -6,7 +6,7 @@ It's a HTTP server which you can use to retrive list of repos and sum of stars o
 - Installed Java 11
 
 ## How to install:
-### Easy way (no jdk required):
+### Easy way:
 1. Go to [v1.0 release](https://github.com/pwitkiewicz/allegro-summer-2021/releases/tag/v1.0)
 2. Download jar package
 3. Run by executing `java -jar allegro-summer-2021-1.0.jar` in directory where you had downloaded the package
