@@ -1,9 +1,11 @@
+import java.util.Map;
+
 public class Result {
-    private final String repoList;
+    private final Map<String, Integer> repoList;
     private final int starsSum;
 
-    public Result(String s, int n) {
-        repoList = s;
+    public Result(Map<String, Integer> m, int n) {
+        repoList = m;
         starsSum = n;
     }
 
@@ -11,7 +13,7 @@ public class Result {
         return starsSum;
     }
 
-    public String getRepoList() {
+    public Map<String, Integer> getRepoList() {
         return repoList;
     }
 }

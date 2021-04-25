@@ -7,10 +7,28 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class Server {
-    final int port = 8080;
+    final private int port = 8080;
+    final private String htmlTopPart = "<head><link rel=\"icon\" href=\"data:,\"></head><body><p>"
+            + "<h2>Welcome to my server app for handling github api requests!</h2><br />"
+            + "Available commands (to be typed in browsers address bar)<br />"
+            + "localhost/username - get user's list of repos and total sum of stars<br />"
+            + "localhost/stars/username - get user's sum of all stars<br />"
+            + "localhost/shutdown - shutdown the server<br /></p>";
 
     public int getPort() {
         return port;
+    }
+
+    private String prepareOutput(Result r) {
+        StringBuilder sb = new StringBuilder();
+        int i = 1;
+        for (String key : r.getRepoList().keySet()) {
+            sb.append(i).append(". ").append(key);
+            sb.append(" stars: ").append(r.getRepoList().get(key));
+            sb.append("<br />");
+            i++;
+        }
+        return sb.toString();
     }
 
     public void start() {
@@ -38,11 +56,7 @@ public class Server {
 
                 // build page html code
                 StringBuilder response = new StringBuilder();
-                response.append("<head><link rel=\"icon\" href=\"data:,\"></head><body><p>")
-                        .append("<h2>Welcome to my server app for handling github api requests!</h2><br />")
-                        .append("Available commands (to be typed in browsers address bar)<br />")
-                        .append("localhost/username - get user's list of repos and total sum of stars<br />")
-                        .append("localhost/shutdown - shutdown the server<br /></p>");
+                response.append(htmlTopPart);
 
                 // append response from github api if requested
                 if (user != null && !user.equals("shutdown")) {
@@ -53,9 +67,10 @@ public class Server {
                     if(r.getStarsSum() == -1) {
                         response.append("User not found!");
                     } else if(!onlyStars) {
-                        response.append(r.getRepoList());
+                        response.append(user).append("'s repo list:<br />")
+                            .append(prepareOutput(r));
                     } else {
-                        response.append("Total sum of stars: ").append(r.getStarsSum());
+                        response.append(user).append("'s total sum of stars: ").append(r.getStarsSum());
                     }
                 }
 
